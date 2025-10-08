@@ -14,6 +14,7 @@ import Foundation
             - Task group
             - `async let`
     - Terms: "child task", "detached task"
+        - https://forums.swift.org/t/why-asyncstream-breaks-structured-concurrency/71477/3
     - Cancellation
     - Priority
     - Task Local Values
