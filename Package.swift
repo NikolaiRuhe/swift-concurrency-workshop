@@ -10,7 +10,7 @@ let package = Package(
         .testTarget(
             name: "SwiftConcurrencyWorkshop",
             swiftSettings: [
-                .swiftLanguageMode(.v5),
+                .swiftLanguageMode(.v6),
             ],
         ),
     ]

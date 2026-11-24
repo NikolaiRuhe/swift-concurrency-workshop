@@ -15,11 +15,20 @@ import Foundation
         - Mutex, OSAllocatedUnfairLock
 */
 
-final class BankAccount {
+actor BankAccount {
     var balance = 0
 
     func transfer(_ amount: Int) async {
+        let originalBalance = balance
         balance += amount
+
+        if await authorizeTransfer(amount) == false {
+            balance = originalBalance
+        }
+    }
+
+    @MainActor func authorizeTransfer(_ amount: Int) -> Bool {
+        return amount > 0
     }
 }
 
@@ -28,8 +37,11 @@ func performSomeTransactions(on account: BankAccount) async -> Int {
         for _ in 1 ... 1000 {
             group.addTask { await account.transfer(1) }
         }
+        for _ in 1 ... 1000 {
+            group.addTask { await account.transfer(-1) }
+        }
         await group.waitForAll()
-        return account.balance
+        return await account.balance
     }
 }
 
